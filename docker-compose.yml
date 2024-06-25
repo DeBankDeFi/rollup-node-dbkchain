@@ -1,0 +1,49 @@
+version: "3.4"
+
+networks:
+  opnet:
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.0.11.0/24
+
+services:
+
+  op-geth:
+    networks:
+      - opnet
+    image: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-geth:v1.101315.1
+    restart: unless-stopped
+    stop_grace_period: 5m
+    entrypoint: /scripts/rpc/start-op-geth.sh
+    env_file:
+      - .env
+    volumes:
+      - ./scripts/:/scripts
+      - ./config/:/config
+      - ${OP_GETH_DATADIR:-/dbk/op-geth}:/op-geth
+      - ${OP_NODE_DATADIR:-/dbk/op-node}:/op-node
+    ports:
+      - ${PORT_OP_GETH_HTTP:-8545}:8545
+      - ${PORT_OP_GETH_WS:-8546}:8546
+      - ${PORT_OP_GETH_METRIC_PORT:-6060}:6060
+
+  op-node:
+    networks:
+      - opnet
+    image: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-node:v1.7.6
+    restart: unless-stopped
+    stop_grace_period: 5m
+    entrypoint: /scripts/rpc/start-op-node.sh
+    env_file:
+      - .env
+    volumes:
+      - ./scripts/:/scripts
+      - ./config/:/config
+      - ${OP_GETH_DATADIR:-/dbk/op-geth}:/op-geth
+      - ${OP_NODE_DATADIR:-/dbk/op-node}:/op-node
+    ports:
+      - ${PORT_OP_NODE_HTTP:-8547}:8547
+      - ${PORT_OP_NODE_P2P:-9222}:9222/tcp
+      - ${PORT_OP_NODE_P2P:-9222}:9222/udp
+      - ${PORT_OP_NODE_METRIC_PORT:-7300}:7300
