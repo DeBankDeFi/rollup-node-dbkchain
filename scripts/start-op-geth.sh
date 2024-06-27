@@ -1,5 +1,10 @@
 #!/bin/sh
 
+if [ ! -d "/op-geth/geth/" ]; then
+    echo "Initiating op-geth genesis state"
+    geth init --datadir=/op-geth /config/genesis.json
+fi
+
 exec geth \
     --datadir /op-geth \
     --http \
@@ -9,8 +14,6 @@ exec geth \
     --http.api=miner,web3,debug,eth,txpool,net,engine,admin,trace \
     --syncmode=full \
     --gcmode=archive \
-    --statediff.dir=/op-geth/statediff \
-    --txtrace \
     --nodiscover \
     --maxpeers=0 \
     --metrics \

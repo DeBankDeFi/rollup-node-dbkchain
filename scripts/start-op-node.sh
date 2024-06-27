@@ -5,7 +5,7 @@ exec op-node \
     --l1.beacon=http://archive-beacon.eth.blockchain \
     --l2=http://op-geth:8551 \
     --l2.jwt-secret=/op-geth/jwt.txt \
-    --rollup.config=/assets/rollup.json \
+    --rollup.config=/config/rollup.json \
     --rpc.addr=0.0.0.0 \
     --rpc.port=8547 \
     --rpc.enable-admin \

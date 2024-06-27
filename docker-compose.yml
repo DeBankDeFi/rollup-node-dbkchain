@@ -15,7 +15,7 @@ services:
     image: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-geth:v1.101315.1
     restart: unless-stopped
     stop_grace_period: 5m
-    entrypoint: /scripts/rpc/start-op-geth.sh
+    entrypoint: /scripts/start-op-geth.sh
     env_file:
       - .env
     volumes:
@@ -34,7 +34,7 @@ services:
     image: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-node:v1.7.6
     restart: unless-stopped
     stop_grace_period: 5m
-    entrypoint: /scripts/rpc/start-op-node.sh
+    entrypoint: /scripts/start-op-node.sh
     env_file:
       - .env
     volumes:
