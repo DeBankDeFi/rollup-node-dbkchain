@@ -1,4 +1,4 @@
-This repo helps spin up DBK chain node.
+This repo helps spin up DBK Chain node.
 
 ## RPC Node
 
